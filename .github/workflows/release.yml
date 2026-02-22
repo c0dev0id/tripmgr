@@ -65,6 +65,7 @@ jobs:
           SIGNING_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_KEYSTORE_PASSWORD }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          VERSION_NAME: ${{ steps.version.outputs.version }}
         run: ./gradlew assembleRelease
 
       - name: Rename APK
@@ -72,8 +73,8 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           mv app/build/outputs/apk/release/app-release.apk \
-             "app/build/outputs/apk/release/LocoMocktionApp-${VERSION}.apk"
-          echo "apk_path=app/build/outputs/apk/release/LocoMocktionApp-${VERSION}.apk" >> "$GITHUB_OUTPUT"
+             "app/build/outputs/apk/release/TripMgr-${VERSION}.apk"
+          echo "apk_path=app/build/outputs/apk/release/TripMgr-${VERSION}.apk" >> "$GITHUB_OUTPUT"
 
       - name: Create and push tag
         run: |
