@@ -2,8 +2,6 @@ package com.tripmgr.ui.tripdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tripmgr.data.model.Section
-import com.tripmgr.data.model.TripFileRef
 import com.tripmgr.data.model.TripMetadata
 import com.tripmgr.data.repository.TripRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -106,13 +104,13 @@ class TripDetailViewModel @Inject constructor(
         }
     }
 
-    fun removeFile(sectionId: String, driveFileId: String) {
+    fun removeFile(sectionId: String, fileId: String) {
         viewModelScope.launch {
             try {
                 repository.removeFileFromSection(
                     _uiState.value.tripFolderId,
                     sectionId,
-                    driveFileId
+                    fileId
                 )
                 reload()
             } catch (e: Exception) {

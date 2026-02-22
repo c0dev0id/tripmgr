@@ -59,7 +59,7 @@ class TripListViewModel @Inject constructor(
             name = if (_uiState.value.folderStack.isEmpty()) "Home" else folder.name
         )
         _uiState.value = _uiState.value.copy(folderStack = stack)
-        loadItems(folder.driveFolderId)
+        loadItems(folder.folderId)
     }
 
     fun navigateBack(): Boolean {
@@ -149,7 +149,8 @@ class TripListViewModel @Inject constructor(
     fun moveItem(itemId: String, destinationFolderId: String) {
         viewModelScope.launch {
             try {
-                repository.moveItem(itemId, destinationFolderId)
+                val sourceParent = _uiState.value.currentFolderId ?: repository.getRootDocumentId()
+                repository.moveItem(itemId, sourceParent, destinationFolderId)
                 loadItems(_uiState.value.currentFolderId)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(error = e.message)

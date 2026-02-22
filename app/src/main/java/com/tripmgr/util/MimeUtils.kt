@@ -3,10 +3,6 @@ package com.tripmgr.util
 import com.tripmgr.data.model.FileType
 
 object MimeUtils {
-    const val MIME_FOLDER = "application/vnd.google-apps.folder"
-    const val MIME_JSON = "application/json"
-    const val TRIP_METADATA_FILE = "trip.json"
-
     fun fileTypeFromMime(mimeType: String): FileType = when {
         mimeType == "application/gpx+xml" || mimeType.endsWith(".gpx") -> FileType.GPX
         mimeType == "application/xml" -> FileType.GPX // GPX files are XML

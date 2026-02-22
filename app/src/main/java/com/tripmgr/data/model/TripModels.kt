@@ -3,7 +3,7 @@ package com.tripmgr.data.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * Represents the metadata stored in trip.json inside each trip folder on Google Drive.
+ * Represents the metadata stored in trip.json inside each trip folder.
  */
 data class TripMetadata(
     @SerializedName("name") val name: String,
@@ -21,11 +21,11 @@ data class Section(
 )
 
 /**
- * Reference to a file stored in the trip folder on Google Drive.
- * The actual file lives alongside trip.json; this tracks its Drive file ID and type.
+ * Reference to a file stored in the trip folder.
+ * The actual file lives alongside trip.json; this tracks its document ID and type.
  */
 data class TripFileRef(
-    @SerializedName("drive_file_id") val driveFileId: String,
+    @SerializedName("file_id") val fileId: String,
     @SerializedName("name") val name: String,
     @SerializedName("type") val type: FileType,
     @SerializedName("mime_type") val mimeType: String,
@@ -40,10 +40,10 @@ enum class FileType {
 }
 
 /**
- * Represents a trip as seen in the list UI. Combines Drive folder info with parsed metadata.
+ * Represents a trip as seen in the list UI. Combines folder info with parsed metadata.
  */
 data class Trip(
-    val driveFolderId: String,
+    val folderId: String,
     val name: String,
     val description: String = "",
     val createdAt: Long = 0,
@@ -52,11 +52,11 @@ data class Trip(
 )
 
 /**
- * Represents a folder used to organize trips. Maps to a Google Drive folder
- * inside the app's root folder.
+ * Represents a folder used to organize trips. Maps to a directory
+ * inside the app's root storage folder.
  */
 data class TripFolder(
-    val driveFolderId: String,
+    val folderId: String,
     val name: String,
     val parentFolderId: String? = null
 )

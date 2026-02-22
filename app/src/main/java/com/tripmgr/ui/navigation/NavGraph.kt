@@ -1,5 +1,6 @@
 package com.tripmgr.ui.navigation
 
+import android.util.Base64
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -16,7 +17,20 @@ object Routes {
     const val TRIP_LIST = "trip_list"
     const val TRIP_DETAIL = "trip_detail/{tripFolderId}"
 
-    fun tripDetail(tripFolderId: String) = "trip_detail/$tripFolderId"
+    fun tripDetail(tripFolderId: String): String {
+        val encoded = Base64.encodeToString(
+            tripFolderId.toByteArray(Charsets.UTF_8),
+            Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING
+        )
+        return "trip_detail/$encoded"
+    }
+
+    fun decodeTripFolderId(encoded: String): String {
+        return String(
+            Base64.decode(encoded, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING),
+            Charsets.UTF_8
+        )
+    }
 }
 
 @Composable
@@ -41,7 +55,8 @@ fun TripNavGraph(navController: NavHostController) {
                 navArgument("tripFolderId") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val tripFolderId = backStackEntry.arguments?.getString("tripFolderId") ?: return@composable
+            val encoded = backStackEntry.arguments?.getString("tripFolderId") ?: return@composable
+            val tripFolderId = Routes.decodeTripFolderId(encoded)
             val viewModel: TripDetailViewModel = hiltViewModel()
             TripDetailScreen(
                 tripFolderId = tripFolderId,

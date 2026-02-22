@@ -1,8 +1,7 @@
 package com.tripmgr.di
 
 import android.content.Context
-import com.tripmgr.data.drive.DriveServiceWrapper
-import com.tripmgr.data.drive.GoogleAuthHelper
+import com.tripmgr.data.storage.StorageService
 import com.tripmgr.data.repository.TripRepository
 import dagger.Module
 import dagger.Provides
@@ -17,16 +16,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGoogleAuthHelper(@ApplicationContext context: Context): GoogleAuthHelper =
-        GoogleAuthHelper(context)
+    fun provideStorageService(@ApplicationContext context: Context): StorageService =
+        StorageService(context)
 
     @Provides
     @Singleton
-    fun provideDriveServiceWrapper(): DriveServiceWrapper = DriveServiceWrapper()
-
-    @Provides
-    @Singleton
-    fun provideTripRepository(
-        driveService: DriveServiceWrapper
-    ): TripRepository = TripRepository(driveService)
+    fun provideTripRepository(storageService: StorageService): TripRepository =
+        TripRepository(storageService)
 }

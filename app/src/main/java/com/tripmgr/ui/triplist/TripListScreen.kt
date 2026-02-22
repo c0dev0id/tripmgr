@@ -143,8 +143,8 @@ fun TripListScreen(
                 ) {
                     items(uiState.items, key = {
                         when (it) {
-                            is TripListItem.FolderItem -> it.folder.driveFolderId
-                            is TripListItem.TripItem -> it.trip.driveFolderId
+                            is TripListItem.FolderItem -> it.folder.folderId
+                            is TripListItem.TripItem -> it.trip.folderId
                         }
                     }) { item ->
                         when (item) {
@@ -153,7 +153,7 @@ fun TripListScreen(
                                 onClick = { viewModel.navigateToFolder(item.folder) },
                                 onLongClick = {
                                     contextMenuItem = ContextMenuTarget(
-                                        id = item.folder.driveFolderId,
+                                        id = item.folder.folderId,
                                         name = item.folder.name,
                                         isTrip = false
                                     )
@@ -161,10 +161,10 @@ fun TripListScreen(
                             )
                             is TripListItem.TripItem -> TripRow(
                                 trip = item,
-                                onClick = { onTripClick(item.trip.driveFolderId) },
+                                onClick = { onTripClick(item.trip.folderId) },
                                 onLongClick = {
                                     contextMenuItem = ContextMenuTarget(
-                                        id = item.trip.driveFolderId,
+                                        id = item.trip.folderId,
                                         name = item.trip.name,
                                         isTrip = true
                                     )
@@ -266,7 +266,7 @@ fun TripListScreen(
             folders = uiState.foldersForPicker,
             onDismiss = { itemToMove = null },
             onSelectFolder = { folder ->
-                viewModel.moveItem(target.id, folder.driveFolderId)
+                viewModel.moveItem(target.id, folder.folderId)
                 itemToMove = null
             },
             onNavigateInto = { folder ->

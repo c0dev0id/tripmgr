@@ -220,7 +220,7 @@ fun TripDetailScreen(
             itemName = fileRef.name,
             onDismiss = { fileToDelete = null },
             onConfirm = {
-                viewModel.removeFile(sectionId, fileRef.driveFileId)
+                viewModel.removeFile(sectionId, fileRef.fileId)
                 fileToDelete = null
             }
         )
